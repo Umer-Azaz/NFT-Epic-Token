@@ -8,8 +8,8 @@ import myEpicNft from './utils/MyEpicNFT.json';
 const TWITTER_HANDLE = '_buildspace';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 const MY_TWITTER = 'https://twitter.com/Umer_';
-const OPENSEA_LINK = '';
-const TOTAL_MINT_COUNT = 50;
+//const OPENSEA_LINK = '';
+//const TOTAL_MINT_COUNT = 50;
 
 const App = () => {
 
@@ -25,38 +25,7 @@ const App = () => {
     const [maxTokenCount, setMaxTokenCount] = useState(0);
 
     
-    /*
-    * Gotta make sure this is async.
-    */
-    const checkIfWalletIsConnected = async () => {
-      const { ethereum } = window;
-
-      if (!ethereum) {
-          console.log("Make sure you have metamask!");
-          return;
-      } else {
-          console.log("We have the ethereum object", ethereum);
-      }
-
-      /*
-      * Check if we're authorized to access the user's wallet
-      */
-      const accounts = await ethereum.request({ method: 'eth_accounts' });
-
-      /*
-      * User can have multiple authorized accounts, we grab the first one if its there!
-      */
-      if (accounts.length !== 0) {
-          const account = accounts[0];
-          console.log("Found an authorized account:", account);
-          setCurrentAccount(account)
-
-          setupEventListener();
-
-      } else {
-          console.log("No authorized account found")
-      }
-  }
+    
 
   /*
   * Implement your connectWallet method here
@@ -163,7 +132,42 @@ const askContractToMintNft = async () => {
 
 
   useEffect(() => {
+
+      /*
+      * Gotta make sure this is async.
+      */
+      const checkIfWalletIsConnected = async () => {
+        const { ethereum } = window;
+
+        if (!ethereum) {
+            console.log("Make sure you have metamask!");
+            return;
+        } else {
+            console.log("We have the ethereum object", ethereum);
+        }
+
+        /*
+        * Check if we're authorized to access the user's wallet
+        */
+        const accounts = await ethereum.request({ method: 'eth_accounts' });
+
+        /*
+        * User can have multiple authorized accounts, we grab the first one if its there!
+        */
+        if (accounts.length !== 0) {
+            const account = accounts[0];
+            console.log("Found an authorized account:", account);
+            setCurrentAccount(account)
+
+            setupEventListener();
+
+        } else {
+            console.log("No authorized account found")
+        }
+    }
+
     checkIfWalletIsConnected();
+    // eslint-disable-next-line 
   }, [])
 
   /*
@@ -186,14 +190,14 @@ const askContractToMintNft = async () => {
             </button>}
         </div>
         <div className="mint-count">Minted {currentTokenCount} / {maxTokenCount} already...</div>
-        <button className="cta-button opensea-button"><a href="https://testnets.opensea.io/collection/squarenft-d0abbhwq5t" target="_blank">View Collection here</a></button>
+        <button className="cta-button opensea-button"><a href="https://testnets.opensea.io/collection/squarenft-d0abbhwq5t" target="_blank" rel="noopener noreferrer">View Collection here</a></button>
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
           <a
             className="footer-text"
             href={TWITTER_LINK}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >{`built on @${TWITTER_HANDLE}`}</a>
           
         </div>
@@ -203,7 +207,7 @@ const askContractToMintNft = async () => {
             className="footer-text"
             href={MY_TWITTER}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >{`by Umer`}</a>
 
         </div>
